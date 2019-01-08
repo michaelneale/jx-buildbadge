@@ -7,38 +7,38 @@ import (
 )
 
 func main() {
-	http.HandleFunc("/badge/", serverBadge)
+	http.HandleFunc("/badge/", ServerBadge)
 	http.ListenAndServe(":8080", nil)
 }
 
-func serverBadge(w http.ResponseWriter, r *http.Request) {
+func ServerBadge(w http.ResponseWriter, r *http.Request) {
 	branchID := strings.TrimPrefix(r.URL.Path, "/badge/")
 	w.Header().Set("Content-type", "image/png")
-	http.ServeFile(w, r, stateIcon(branchID))
+	http.ServeFile(w, r, StateIcon(branchID))
 }
 
-func stateIcon(branchID string) string {
+func StateIcon(branchID string) string {
 	switch branchID {
 	case "show-fail":
 		return "fail.png"
 	case "show-unstable":
 		return "unstable.png"
 	default:
-		return fetchState(branchID)
+		return FetchState(branchID)
 	}
 }
 
 /* everything after the /badge/ - use it to work out what state is.
    Typically includes repo and branch name. If just repo, default to master.  */
-func fetchState(branchID string) string {
-	pipeline, branch := splitBranch(branchID)
+func FetchState(branchID string) string {
+	pipeline, branch := SplitBranch(branchID)
 	log.Printf("pipe = %s  branch = %s ", pipeline, branch)
 	//TODO implement me to look things up from Jenkins X here!
 	return "success.png"
 
 }
 
-func splitBranch(branchID string) (string, string) {
+func SplitBranch(branchID string) (string, string) {
 	elems := strings.Split(branchID, "/")
 	return elems[0], elems[1]
 
