@@ -11,7 +11,7 @@ func TestState(t *testing.T) {
 	}
 }
 
-func testBranch(t *testing.T) {
+func TestBranch(t *testing.T) {
 	pipe, branch := SplitBranch("foo/bar")
 	if pipe != "foo" {
 		t.Errorf("pipeline name was %s", pipe)
@@ -19,6 +19,18 @@ func testBranch(t *testing.T) {
 
 	if branch != "bar" {
 		t.Errorf("branch was %s", branch)
+	}
+}
+
+func TestDefaultBranch(t *testing.T) {
+	pipe, branch := SplitBranch("foo")
+
+	if pipe != "foo" {
+		t.Errorf("pipeline name was %s", pipe)
+	}
+
+	if branch != "master" {
+		t.Errorf("branch was %s but I expected it to default to master", branch)
 	}
 
 }

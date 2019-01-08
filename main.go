@@ -40,6 +40,10 @@ func FetchState(branchID string) string {
 
 func SplitBranch(branchID string) (string, string) {
 	elems := strings.Split(branchID, "/")
-	return elems[0], elems[1]
+	if len(elems) < 2 {
+		return branchID, "master"
+	} else {
+		return elems[0], elems[1]
+	}
 
 }
