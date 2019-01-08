@@ -1,6 +1,7 @@
 package main
 
 import (
+	"log"
 	"net/http"
 	"strings"
 )
@@ -30,6 +31,15 @@ func stateIcon(branchID string) string {
 /* everything after the /badge/ - use it to work out what state is.
    Typically includes repo and branch name. If just repo, default to master.  */
 func fetchState(branchID string) string {
-	//TODO implement me!
+	pipeline, branch := splitBranch(branchID)
+	log.Printf("pipe = %s  branch = %s ", pipeline, branch)
+	//TODO implement me to look things up from Jenkins X here!
 	return "success.png"
+
+}
+
+func splitBranch(branchID string) (string, string) {
+	elems := strings.Split(branchID, "/")
+	return elems[0], elems[1]
+
 }
